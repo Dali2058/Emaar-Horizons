@@ -1634,14 +1634,14 @@
     }
     function uaSignOut() {
       window._signOut(window._auth).then(() => {
-        window.location.href = 'login.html';
+        window.location.href = '/';
       });
     }
     function uaSwitch() {
       document.getElementById('ua-dropdown').classList.remove('open');
       window._provider.setCustomParameters({ prompt: 'select_account' });
       window._signOut(window._auth).then(() => {
-        window.location.href = 'login.html';
+        window.location.href = '/';
       });
     }
     document.addEventListener('click', function(e) {
