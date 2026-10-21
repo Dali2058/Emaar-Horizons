@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تواصل معنا | Emaar Horizons</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --white: #ffffff;
+      --sky: #5BBFDE;
+      --sky-dark: #1f7fa0;
+      --sky-light: #d6f0f8;
+      --text-dark: #0d1b22;
+      --text-mid: #3a4f5c;
+      --section-bg: #f7fbfd;
+      --green: #25d366;
+      --font-ar: 'Tajawal', sans-serif;
+      --font-en: 'Montserrat', sans-serif;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-ar); background: var(--white); color: var(--text-dark); overflow-x: hidden; }
+
+    /* ─── PRELOADER ───────────────────────────────────── */
+    #preloader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--white);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 18px;
+      transition: opacity 0.7s ease, visibility 0.7s ease;
+    }
+    #preloader.hide { opacity: 0; visibility: hidden; }
+    .pre-logo {
+      width: 72px; height: 72px;
+      border: 2.5px solid var(--text-dark);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      animation: logoFadeIn 0.8s ease both;
+    }
+    .pre-logo span { font-family: var(--font-en); font-size: 2rem; font-weight: 700; letter-spacing: 1px; }
+    @keyframes logoFadeIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+    .pre-text {
+      font-family: var(--font-en); font-size: 0.72rem; font-weight: 300;
+      letter-spacing: 5px; color: var(--sky);
+      animation: logoFadeIn 0.8s 0.3s ease both;
+    }
+    .pre-bar {
+      width: 160px; height: 2px; background: #e8f4f8; border-radius: 2px; overflow: hidden;
+      animation: logoFadeIn 0.6s 0.5s ease both;
+    }
+    .pre-bar-fill {
+      height: 100%; width: 0;
+      background: linear-gradient(90deg, var(--sky-dark), var(--sky));
+      animation: loadBar 3.8s 0.6s ease forwards;
+    }
+    @keyframes loadBar { 0% { width: 0; } 60% { width: 75%; } 100% { width: 100%; } }
+
+    /* ─── NAVBAR ──────────────────────────────────────── */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      height: 72px; padding: 0 6%;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(255,255,255,0.72);
+      -webkit-backdrop-filter: blur(30px) saturate(180%);
+      backdrop-filter: blur(30px) saturate(180%);
+      border-bottom: 1px solid rgba(255,255,255,0.55);
+      box-shadow: 0 10px 30px rgba(15,23,42,0.10);
+      transition: box-shadow 0.35s ease, background 0.35s ease;
+    }
+    #navbar.scrolled { box-shadow: 0 8px 30px rgba(15,23,42,0.12); background: rgba(255,255,255,0.90); }
+    .nav-logo img { height: 42px; object-fit: contain; }
+    .nav-links { display: flex; gap: 6px; list-style: none; }
+    .nav-links a {
+      text-decoration: none; font-weight: 600; font-size: 0.92rem;
+      color: var(--text-mid); letter-spacing: 0.1px;
+      padding: 9px 16px; border-radius: 999px;
+      transition: color 0.25s ease, background 0.25s ease;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--sky-dark); background: rgba(91,191,222,0.14); }
+    @media (max-width: 900px) { #navbar { display: none !important; } }
+
+    /* ─── HERO ────────────────────────────────────────── */
+    #hero {
+      position: relative; width: 100%; height: 100vh; min-height: 640px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    @supports (height: 100dvh) { #hero { height: 100dvh; min-height: 560px; } }
+    .hero-video {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; z-index: 0;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(to bottom,
+        rgba(5,14,20,0.62) 0%,
+        rgba(5,14,20,0.48) 60%,
+        rgba(5,14,20,0.72) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center; color: #fff;
+      padding: 0 5%;
+      animation: fadeUp 0.9s 4.8s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-label {
+      font-family: var(--font-en); font-size: 0.72rem; font-weight: 400;
+      letter-spacing: 6px; color: var(--sky); margin-bottom: 16px;
+    }
+    .hero-brand {
+      font-family: var(--font-ar);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 900; line-height: 1.2;
+    }
+    .hero-brand span {
+      display: inline-block; color: var(--sky); margin-right: 12px;
+    }
+    .hero-divider { width: 60px; height: 2px; background: var(--sky); margin: 28px auto; opacity: 0.8; }
+    .hero-tagline {
+      font-size: 1.1rem; font-weight: 400;
+      color: rgba(255,255,255,0.85); letter-spacing: 0.5px; margin-bottom: 42px;
+    }
+    .hero-scroll-hint {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px;
+      animation: fadeUp 1s 5.2s ease both;
+    }
+    .hero-scroll-hint span {
+      font-family: var(--font-en); font-size: 0.62rem; letter-spacing: 3px;
+      color: rgba(255,255,255,0.45);
+    }
+    .scroll-arrow {
+      width: 20px; height: 20px;
+      border-right: 1.5px solid rgba(255,255,255,0.4);
+      border-bottom: 1.5px solid rgba(255,255,255,0.4);
+      transform: rotate(45deg);
+      animation: arrowBounce 1.6s infinite;
+    }
+    @keyframes arrowBounce { 0%,100%{transform:rotate(45deg) translateY(0);} 50%{transform:rotate(45deg) translateY(5px);} }
+
+    /* ─── CONTACT SECTION ─────────────────────────────── */
+    #contact-section {
+      background: var(--white);
+      padding: 90px 8% 80px;
+    }
+    .section-label-wrap { text-align: center; margin-bottom: 56px; }
+    .section-label {
+      font-family: var(--font-en); font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 5px; color: var(--sky); display: block; margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 900;
+      color: var(--text-dark); line-height: 1.2;
+    }
+    .section-title em { font-style: normal; color: var(--sky-dark); }
+    .section-subtitle {
+      font-size: 1rem; color: var(--text-mid); margin-top: 12px;
+      max-width: 480px; margin-inline: auto; line-height: 1.75;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 56px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* ─── CONTACT CARDS ───────────────────────────────── */
+    .contact-cards { display: flex; flex-direction: column; gap: 14px; }
+
+    .num-card {
+      padding: 18px 20px 16px;
+      border: 1px solid rgba(91,191,222,0.18);
+      border-radius: 16px;
+      background: var(--section-bg);
+      transition: box-shadow 0.3s, border-color 0.3s;
+    }
+    .num-card:hover {
+      box-shadow: 0 8px 28px rgba(31,127,160,0.1);
+      border-color: rgba(91,191,222,0.38);
+    }
+    .num-card-top {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 14px;
+    }
+    .card-icon {
+      width: 42px; height: 42px; flex-shrink: 0;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .card-icon.phone-ic { background: rgba(91,191,222,0.15); }
+    .card-icon svg { width: 20px; height: 20px; stroke: var(--sky-dark); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+    .card-label {
+      font-family: var(--font-en); font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 3px; color: var(--sky-dark); display: block; margin-bottom: 3px;
+    }
+    .card-num {
+      font-family: var(--font-en); font-size: 1rem; font-weight: 700;
+      color: var(--text-dark); letter-spacing: 0.5px;
+    }
+
+    .num-actions { display: flex; gap: 8px; }
+    .num-btn {
+      flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      padding: 9px 10px;
+      border-radius: 10px;
+      font-family: var(--font-ar); font-size: 0.82rem; font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .num-btn:hover { transform: translateY(-1px); }
+    .num-btn.call {
+      background: rgba(91,191,222,0.12);
+      color: var(--sky-dark);
+      border: 1px solid rgba(91,191,222,0.3);
+    }
+    .num-btn.call:hover { background: var(--sky-dark); color: #fff; box-shadow: 0 6px 18px rgba(31,127,160,0.25); }
+    .num-btn.whatsapp {
+      background: rgba(37,211,102,0.1);
+      color: #1a9e4a;
+      border: 1px solid rgba(37,211,102,0.28);
+    }
+    .num-btn.whatsapp:hover { background: var(--green); color: #fff; box-shadow: 0 6px 18px rgba(37,211,102,0.3); }
+    .num-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .num-btn.call svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .num-btn.whatsapp svg { fill: currentColor; stroke: none; }
+
+    /* ─── EMAIL FORM ──────────────────────────────────── */
+    .email-form-wrap {
+      background: var(--section-bg);
+      border: 1px solid rgba(91,191,222,0.18);
+      border-radius: 20px;
+      padding: 36px 32px;
+    }
+    .form-title {
+      font-size: 1.25rem; font-weight: 900;
+      color: var(--text-dark); margin-bottom: 6px;
+    }
+    .form-title em { font-style: normal; color: var(--sky-dark); }
+    .form-sub {
+      font-size: 0.88rem; color: var(--text-mid);
+      margin-bottom: 28px; line-height: 1.6;
+    }
+
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block; font-size: 0.82rem; font-weight: 700;
+      color: var(--text-dark); margin-bottom: 7px;
+      letter-spacing: 0.3px;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%; padding: 12px 16px;
+      border: 1.5px solid rgba(91,191,222,0.25);
+      border-radius: 10px;
+      background: var(--white);
+      font-family: var(--font-ar); font-size: 0.95rem;
+      color: var(--text-dark);
+      outline: none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      resize: vertical;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(58,79,92,0.4); }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--sky);
+      box-shadow: 0 0 0 3px rgba(91,191,222,0.15);
+    }
+    .form-group textarea { min-height: 110px; }
+
+    .form-submit {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--sky) 0%, var(--sky-dark) 100%);
+      color: #fff; border: none; border-radius: 10px;
+      font-family: var(--font-ar); font-size: 1rem; font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(31,127,160,0.3);
+      transition: transform 0.25s, box-shadow 0.25s;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .form-submit:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(31,127,160,0.4); }
+    .form-submit svg { width: 18px; height: 18px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transform: scaleX(-1); }
+
+    /* ─── FOOTER ──────────────────────────────────────── */
+    footer {
+      background: #ffffff; padding: 30px 10%;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+    footer p { font-size: 0.85rem; color: var(--text-mid); }
+    footer img { height: 32px; opacity: 0.85; }
+    .wa-glass-btn {
+      display: inline-flex; align-items: center; gap: 8px; margin-top: 10px;
+      padding: 8px 20px; border-radius: 999px;
+      text-decoration: none; color: #25d366; font-size: 0.82rem; font-weight: 600;
+      background: rgba(37,211,102,0.08);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(37,211,102,0.4);
+      font-family: 'Montserrat', sans-serif;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+    .wa-glass-btn:hover { background: #25d366; color: #fff; }
+
+    /* ─── MOBILE TOP BAR ─────────────────────────────── */
+    .mobile-topbar { display: none; }
+    @media (max-width: 768px) {
+      .mobile-topbar {
+        display: flex; align-items: center; justify-content: space-between;
+        position: fixed; top: 0; left: 0; right: 0; z-index: 1400;
+        height: 62px; padding: 0 16px;
+        background: rgba(255,255,255,0.72);
+        -webkit-backdrop-filter: blur(30px) saturate(180%);
+        backdrop-filter: blur(30px) saturate(180%);
+        border-bottom: 1px solid rgba(255,255,255,0.5);
+        box-shadow: 0 10px 30px rgba(15,23,42,0.10);
+      }
+      .mobile-topbar.scrolled { box-shadow: 0 8px 30px rgba(15,23,42,0.12); background: rgba(255,255,255,0.9); }
+      
+      .mobile-menu-btn {
+        width: 44px; height: 44px; border-radius: 14px; border: none; cursor: pointer;
+        display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        background: var(--sky);
+        box-shadow: 0 6px 18px rgba(91,191,222, 0.4);
+        transition: transform 0.3s ease, background 0.3s ease;
+      }
+      .mobile-menu-btn:hover { transform: scale(1.05); }
+      .mobile-menu-btn svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 2.6; stroke-linecap: round; }
+      .mobile-topbar-logo img {
+        height: 32px;
+        max-width: 170px;
+        object-fit: contain;
+        display: block;
+      }
+    }
+
+    /* ─── MOBILE MENU OVERLAY (DROPDOWN COMPACT) ─── */
+    .mobile-menu-overlay {
+      position: fixed; inset: 0; z-index: 99999;
+      display: flex; align-items: flex-start; justify-content: center;
+      padding:
+        calc(74px + env(safe-area-inset-top))
+        12px
+        calc(14px + env(safe-area-inset-bottom));
+      background: rgba(5,8,14,0);
+      -webkit-backdrop-filter: blur(0px);
+      backdrop-filter: blur(0px);
+      opacity: 0; visibility: hidden; pointer-events: none;
+      overflow: hidden;
+      transition: opacity 0.3s ease, background 0.3s ease, backdrop-filter 0.3s ease, visibility 0.3s;
+    }
+    .mobile-menu-overlay.open {
+      opacity: 1; visibility: visible; pointer-events: all;
+      background: rgba(5,8,14,0.55);
+      -webkit-backdrop-filter: blur(12px) saturate(150%);
+      backdrop-filter: blur(12px) saturate(150%);
+    }
+
+    .mm-sheet {
+      width: min(100%, 360px);
+      max-height: min(560px, calc(100dvh - 96px));
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      margin: 0 auto;
+      background: #0a0a0c;
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(112,160,106,0.06);
+      transform: scale(0.94) translateY(-12px);
+      transform-origin: top center;
+      opacity: 0;
+      transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.3s ease;
+    }
+    .mobile-menu-overlay.open .mm-sheet {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+
+    .mm-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 18px;
+      background: linear-gradient(135deg, var(--sky-dark), #8a5cff);
+      flex-shrink: 0;
+    }
+    .mm-close {
+      width: 38px; height: 38px; border-radius: 12px;
+      border: none;
+      background: rgba(255, 255, 255, 0.25); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: transform 0.25s ease, background 0.2s;
+    }
+    .mm-close:hover { transform: scale(1.08); background: rgba(255, 255, 255, 0.35); }
+    .mm-close svg { width: 17px; height: 17px; stroke: #fff; fill: none; stroke-width: 2.8; stroke-linecap: round; }
+
+    .mm-body {
+      display: flex; flex-direction: column;
+      align-items: stretch;
+      padding: 20px 18px 26px;
+      background: #0a0a0c;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .mm-links {
+      width: 100%;
+      height: auto;
+      min-height: 0;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      list-style: none;
+      background: transparent;
+      border: 0;
+    }
+
+    .mm-link {
+      display: flex; align-items: center; justify-content: flex-end; gap: 14px;
+      padding: 16px 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 14px;
+      text-decoration: none; color: #fff;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .mm-link:hover { background: rgba(255,255,255,0.09); }
+    .mm-link:hover .mm-link-label { color: var(--sky); }
+    .mm-link-label { font-size: 1rem; font-weight: 600; color: #fff; letter-spacing: 0.2px; }
+    .mm-link-icon {
+      width: 34px; height: 34px; border-radius: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .mm-link-icon svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .mm-link.active { background: rgba(59, 157, 255, 0.16); border-color: rgba(59, 157, 255, 0.4); }
+    .mm-link.active .mm-link-label { color: var(--sky) !important; }
+    .mm-link.active .mm-link-icon { background: rgba(59, 157, 255, 0.28) !important; }
+    .mm-link.active .mm-link-icon svg { stroke: var(--sky) !important; }
+
+    @media (max-width: 900px) {
+      #contact-section { padding: 64px 6% 60px; }
+    }
+    @media (max-width: 560px) {
+      .contact-grid { gap: 24px; }
+      .email-form-wrap { padding: 22px 16px; border-radius: 18px; }
+      .num-card { padding: 16px; }
+      .num-actions { flex-wrap: wrap; }
+      .num-btn { min-height: 44px; }
+      footer { flex-direction: column; gap: 14px; text-align: center; }
+    }
+  </style>
+
+<style id="nebras-development-footer">
+  .dev-footer {
+    position: relative !important;
+    overflow: hidden;
+    isolation: isolate;
+    min-height: 350px;
+    margin-top: 0;
+    padding: 70px 6% 24px;
+    color: #fff !important;
+    background:
+      radial-gradient(circle at 12% 20%, rgba(255,255,255,.17), transparent 27%),
+      radial-gradient(circle at 84% 78%, rgba(0,72,90,.18), transparent 32%),
+      linear-gradient(135deg, #04b9d5 0%, #08a9c8 48%, #078faa 100%) !important;
+    border-top: 1px solid rgba(255,255,255,.25);
+    box-shadow: 0 -22px 60px rgba(0, 163, 190, .12);
+    display: block !important;
+  }
+  .dev-footer * { box-sizing: border-box; }
+  .dev-footer__inner {
+    position: relative;
+    z-index: 3;
+    max-width: 1220px;
+    margin: 0 auto;
+    min-height: 230px;
+    display: grid;
+    grid-template-columns: minmax(220px, .72fr) minmax(320px, 1.28fr);
+    align-items: center;
+    gap: 60px;
+  }
+  .dev-footer__brand {
+    order: 2;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .dev-footer__logo {
+    display: block;
+    width: min(310px, 72vw);
+    max-height: 150px;
+    height: auto;
+    object-fit: contain;
+    object-position: right center;
+    filter: drop-shadow(0 16px 28px rgba(0,0,0,.14));
+  }
+  .dev-footer__content {
+    order: 1;
+    text-align: right;
+    max-width: 650px;
+  }
+  .dev-footer__eyebrow {
+    display: inline-block;
+    margin-bottom: 12px;
+    font-family: Montserrat, Arial, sans-serif;
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,.78);
+  }
+  .dev-footer__content h2 {
+    margin: 0 0 13px !important;
+    color: #fff !important;
+    font-size: clamp(1.45rem, 3vw, 2.35rem) !important;
+    line-height: 1.25;
+    font-weight: 900;
+  }
+  .dev-footer__content p {
+    max-width: 590px;
+    margin: 0 0 20px !important;
+    color: rgba(255,255,255,.88) !important;
+    font-size: .96rem;
+    line-height: 1.9;
+  }
+  .dev-footer__meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-bottom: 22px;
+    color: rgba(255,255,255,.76);
+    font-size: .86rem;
+  }
+  .dev-footer__meta strong {
+    color: #fff;
+    font-family: Montserrat, Arial, sans-serif;
+    font-size: 1.02rem;
+    letter-spacing: 1.5px;
+  }
+  .dev-footer__contact {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    min-height: 46px;
+    padding: 0 20px;
+    border: 1px solid rgba(255,255,255,.95);
+    border-radius: 999px;
+    color: #fff !important;
+    background: rgba(255,255,255,.04);
+    text-decoration: none !important;
+    font-weight: 700;
+    transition: transform .3s ease, background .3s ease, box-shadow .3s ease;
+  }
+  .dev-footer__contact:hover {
+    transform: translateY(-3px);
+    background: rgba(255,255,255,.14);
+    box-shadow: 0 12px 30px rgba(0,0,0,.12);
+  }
+  .dev-footer__arrow {
+    font-family: Arial, sans-serif;
+    font-size: 1.15rem;
+    transition: transform .3s ease;
+  }
+  .dev-footer__contact:hover .dev-footer__arrow { transform: translateX(-4px); }
+  .dev-footer__bottom {
+    position: relative;
+    z-index: 3;
+    max-width: 1220px;
+    margin: 35px auto 0;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,.2);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    color: rgba(255,255,255,.66);
+    font-family: Montserrat, Arial, sans-serif;
+    font-size: .62rem;
+    letter-spacing: 1.6px;
+    direction: ltr;
+  }
+  .dev-footer__dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.8);
+  }
+  .dev-footer__fx { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+  .dev-grid {
+    position: absolute;
+    inset: 0;
+    opacity: .13;
+    background-image: linear-gradient(rgba(255,255,255,.32) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.32) 1px, transparent 1px);
+    background-size: 54px 54px;
+    mask-image: linear-gradient(to bottom, transparent, #000 25%, #000 72%, transparent);
+  }
+  .dev-orb {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.18);
+    background: rgba(255,255,255,.07);
+    filter: blur(.2px);
+    animation: nebrasOrb 9s ease-in-out infinite;
+  }
+  .dev-orb--1 { width: 180px; height: 180px; top: -80px; left: 9%; }
+  .dev-orb--2 { width: 100px; height: 100px; bottom: 30px; right: 19%; animation-delay: -3s; animation-duration: 11s; }
+  .dev-orb--3 { width: 54px; height: 54px; top: 35%; right: 7%; animation-delay: -6s; animation-duration: 7s; }
+  .dev-line {
+    position: absolute;
+    height: 1px;
+    width: 42%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent);
+    transform: rotate(-10deg);
+    animation: nebrasLine 8s linear infinite;
+  }
+  .dev-line--1 { top: 22%; left: -15%; }
+  .dev-line--2 { bottom: 17%; right: -15%; animation-delay: -4s; transform: rotate(10deg); }
+  .dev-spark {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 14px rgba(255,255,255,.9);
+    animation: nebrasSpark 5s ease-in-out infinite;
+  }
+  .dev-spark--1 { left: 18%; top: 67%; }
+  .dev-spark--2 { left: 34%; top: 18%; animation-delay: -1.3s; }
+  .dev-spark--3 { right: 26%; top: 72%; animation-delay: -2.4s; }
+  .dev-spark--4 { right: 9%; top: 30%; animation-delay: -3.7s; }
+  @keyframes nebrasOrb {
+    0%,100% { transform: translate3d(0,0,0) scale(1); opacity: .55; }
+    50% { transform: translate3d(0,-18px,0) scale(1.08); opacity: .9; }
+  }
+  @keyframes nebrasLine {
+    0% { transform: translateX(-30%) rotate(-10deg); opacity: 0; }
+    15%,75% { opacity: .7; }
+    100% { transform: translateX(150%) rotate(-10deg); opacity: 0; }
+  }
+  @keyframes nebrasSpark {
+    0%,100% { transform: translateY(0) scale(.75); opacity: .35; }
+    50% { transform: translateY(-18px) scale(1.25); opacity: 1; }
+  }
+  @media (max-width: 760px) {
+    .dev-footer { padding: 54px 6% 22px; }
+    .dev-footer__inner { grid-template-columns: 1fr; gap: 28px; text-align: center; }
+    .dev-footer__brand { order: 1; justify-content: center; }
+    .dev-footer__content { order: 2; text-align: center; max-width: none; }
+    .dev-footer__logo { width: min(250px, 65vw); object-position: center; }
+    .dev-footer__content p { margin-left: auto !important; margin-right: auto !important; }
+    .dev-footer__meta { justify-content: center; }
+    .dev-footer__bottom { justify-content: center; flex-wrap: wrap; text-align: center; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dev-footer .dev-orb, .dev-footer .dev-line, .dev-footer .dev-spark { animation: none; }
+  }
+</style>
+
+
+<style id="compact-development-footer">
+  /* Compact development footer — approximately half the previous height */
+  .dev-footer { min-height: 175px !important; padding: 34px 6% 12px !important; }
+  .dev-footer__inner { min-height: 112px !important; gap: 30px !important; }
+  .dev-footer__logo { width: min(160px, 42vw) !important; max-height: 78px !important; }
+  .dev-footer__eyebrow { margin-bottom: 6px !important; font-size: .56rem !important; letter-spacing: 2.2px !important; }
+  .dev-footer__content h2 { margin-bottom: 7px !important; font-size: clamp(1.05rem, 2.2vw, 1.55rem) !important; }
+  .dev-footer__content p { margin-bottom: 8px !important; font-size: .72rem !important; line-height: 1.65 !important; max-width: 500px !important; }
+  .dev-footer__meta { margin-bottom: 8px !important; gap: 7px !important; font-size: .68rem !important; }
+  .dev-footer__meta strong { font-size: .8rem !important; }
+  .dev-footer__bottom { margin-top: 12px !important; padding-top: 9px !important; gap: 8px !important; font-size: .52rem !important; letter-spacing: 1.1px !important; }
+  .dev-footer__dot { width: 3px !important; height: 3px !important; }
+  @media (max-width: 760px) {
+    .dev-footer { min-height: 230px !important; padding: 28px 6% 12px !important; }
+    .dev-footer__inner { min-height: 155px !important; gap: 14px !important; }
+    .dev-footer__logo { width: min(135px, 42vw) !important; max-height: 66px !important; }
+    .dev-footer__content p { font-size: .69rem !important; }
+    .dev-footer__bottom { margin-top: 8px !important; }
+  }
+</style>
+
+</head>
+
+<body>
+
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <div class="pre-logo"><span>N</span></div>
+    <p class="pre-text">CONTACT US</p>
+    <div class="pre-bar"><div class="pre-bar-fill"></div></div>
+  </div>
+
+  <!-- MOBILE TOP BAR -->
+  <div class="mobile-topbar" id="mobileTopbar">
+    <div class="mobile-topbar-logo">
+      <img src="emmar.png" alt="Emaar Horizons" />
+    </div>
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="فتح القائمة">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <div class="mm-sheet">
+      <div class="mm-header">
+        <button class="mm-close" id="mobileMenuClose" aria-label="إغلاق القائمة">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <div class="mm-header-logo">
+          <img src="emmar.png" style="height:28px; filter: brightness(0) invert(1);" alt="Emaar Horizons" />
+        </div>
+      </div>
+      <div class="mm-body">
+        <nav class="mm-links">
+          <a href="/" class="mm-link">
+            <span class="mm-link-label">الرئيسية</span>
+            <span class="mm-link-icon"><svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg></span>
+          </a>
+          <a href="/nabza" class="mm-link">
+            <span class="mm-link-label">نبذة عن مشاريعنا</span>
+            <span class="mm-link-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span>
+          </a>
+          <a href="/electro" class="mm-link">
+            <span class="mm-link-label">إلكتروميكانيك</span>
+            <span class="mm-link-icon"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+          </a>
+          <a href="/projects" class="mm-link">
+            <span class="mm-link-label">مشاريع</span>
+            <span class="mm-link-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>
+          </a>
+          <a href="/decorations" class="mm-link">
+            <span class="mm-link-label">ديكورات</span>
+            <span class="mm-link-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span>
+          </a>
+          <a href="/team" class="mm-link">
+            <span class="mm-link-label">فريق العمل</span>
+            <span class="mm-link-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/></svg></span>
+          </a>
+
+          <a href="/contact" class="mm-link active">
+            <span class="mm-link-label">تواصل معنا</span>
+            <span class="mm-link-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.43 2 2 0 0 1 3.58 1H6.6a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.5a16 16 0 0 0 5.55 5.55l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="nav-logo">
+      <img src="emmar.png" alt="Emaar Horizons" />
+    </div>
+    <ul class="nav-links">
+      <li><a href="/">الرئيسية</a></li>
+      <li><a href="/nabza">نبذة عن مشاريعنا</a></li>
+      <li><a href="/electro">إلكتروميكانيك</a></li>
+      <li><a href="/projects">مشاريع</a></li>
+      <li><a href="/decorations">ديكورات</a></li>
+            <li><a href="/team">فريق العمل</a></li>
+<li><a href="/contact" class="active">تواصل معنا</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto">
+      <source src="nebras-bg.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-label">CONTACT US</p>
+      <h1 class="hero-brand"><span>تواصل</span> معنا</h1>
+      <div class="hero-divider"></div>
+      <p class="hero-tagline">نسعد بالتواصل معك في أي وقت</p>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>SCROLL</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact-section">
+    <div class="section-label-wrap">
+      <span class="section-label">GET IN TOUCH</span>
+      <h2 class="section-title">هل لديك <em>مشروع</em> في ذهنك؟</h2>
+      <p class="section-subtitle">فريقنا المتخصص جاهز للتواصل معك. اختر الطريقة التي تناسبك.</p>
+    </div>
+
+    <div class="contact-grid">
+
+      <!-- LEFT: Number Cards -->
+      <div class="contact-cards">
+
+        <!-- Number 1 -->
+        <div class="num-card">
+          <div class="num-card-top">
+            <div class="card-icon phone-ic">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.43 2 2 0 0 1 3.58 1H6.6a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.5a16 16 0 0 0 5.55 5.55l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div>
+              <span class="card-label">CONTACT — 01</span>
+              <span class="card-num" dir="ltr">+966 55 418 6401</span>
+            </div>
+          </div>
+          <div class="num-actions">
+            <a class="num-btn call" href="tel:+966554186401">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.43 2 2 0 0 1 3.58 1H6.6a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.5a16 16 0 0 0 5.55 5.55l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              اتصل به
+            </a>
+            <a class="num-btn whatsapp" href="https://wa.me/966554186401" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              واتساب
+            </a>
+          </div>
+        </div>
+
+        <!-- Number 4 -->
+        <div class="num-card">
+          <div class="num-card-top">
+            <div class="card-icon phone-ic">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.43 2 2 0 0 1 3.58 1H6.6a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.5a16 16 0 0 0 5.55 5.55l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div>
+              <span class="card-label">CONTACT — 04</span>
+              <span class="card-num" dir="ltr">+966 11 210 9222</span>
+            </div>
+          </div>
+          <div class="num-actions">
+            <a class="num-btn call" href="tel:+966112109222">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.43 2 2 0 0 1 3.58 1H6.6a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.5a16 16 0 0 0 5.55 5.55l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              اتصل به
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Email Form -->
+      <div class="email-form-wrap">
+        <h3 class="form-title">أرسل <em>رسالة</em></h3>
+        <p class="form-sub">اكتب رسالتك وسيتم فتح Gmail تلقائياً لإرسالها.</p>
+
+        <form id="contact-form" novalidate>
+          <div class="form-group">
+            <label for="msg-subject">الموضوع</label>
+            <input type="text" id="msg-subject" placeholder="موضوع رسالتك..." />
+          </div>
+          <div class="form-group">
+            <label for="msg-body">رسالتك</label>
+            <textarea id="msg-body" placeholder="اكتب رسالتك هنا..." required></textarea>
+          </div>
+          <button type="submit" class="form-submit">
+            <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+            إرسال الرسالة
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <!-- DEVELOPMENT FOOTER -->
+<footer class="dev-footer" dir="rtl">
+  <div class="dev-footer__fx" aria-hidden="true">
+    <span class="dev-orb dev-orb--1"></span>
+    <span class="dev-orb dev-orb--2"></span>
+    <span class="dev-orb dev-orb--3"></span>
+    <span class="dev-grid"></span>
+    <span class="dev-line dev-line--1"></span>
+    <span class="dev-line dev-line--2"></span>
+    <span class="dev-spark dev-spark--1"></span>
+    <span class="dev-spark dev-spark--2"></span>
+    <span class="dev-spark dev-spark--3"></span>
+    <span class="dev-spark dev-spark--4"></span>
+  </div>
+  <div class="dev-footer__inner">
+    <div class="dev-footer__brand">
+      <img src="emmar.png" alt="Emaar Horizons" class="dev-footer__logo" />
+    </div>
+
+    <div class="dev-footer__content">
+      <span class="dev-footer__eyebrow">EMAAR HORIZONS</span>
+      <h2>تفاصيل تصنع الفرق.</h2>
+      <p>
+        نطوّر حلولنا بعناية لنقدّم تجربة رقمية واضحة، سريعة، ومناسبة لاحتياجات العمل.
+      </p>
+      <div class="dev-footer__meta">
+        <span>مسؤول التطوير</span>
+        <strong>EYAD</strong>
+      </div>
+    </div>
+  </div>
+  <div class="dev-footer__bottom">
+    <span>EMAAR HORIZONS</span>
+    <span class="dev-footer__dot"></span>
+    <span>EST. 2019</span><span class="dev-footer__dot"></span><span>PROJECT@NEBRAS.COM.SA</span>
+  </div>
+</footer>
+
+  <script>
+    // Navbar shadow on scroll
+    const navbar = document.getElementById('navbar');
+    const mobileTopbar = document.getElementById('mobileTopbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+      if (mobileTopbar) mobileTopbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Preloader
+    setTimeout(() => {
+      const pre = document.getElementById('preloader');
+      if (pre) pre.classList.add('hide');
+    }, 4600);
+
+    // Email form → opens Gmail compose
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const subj  = document.getElementById('msg-subject').value.trim();
+      const body  = document.getElementById('msg-body').value.trim();
+
+      if (!body) {
+        alert('يرجى كتابة رسالتك أولاً.');
+        return;
+      }
+
+      const to     = 'project@nebras.com.sa';
+      const subject = encodeURIComponent(subj || 'رسالة من موقع Emaar Horizons');
+      const bodyEnc = encodeURIComponent(body);
+
+      window.open(
+        `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${subject}&body=${bodyEnc}`,
+        '_blank'
+      );
+    });
+
+    // Mobile menu handling
+    (() => {
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const mobileMenuClose = document.getElementById('mobileMenuClose');
+      const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+
+      const openMobileMenu = () => {
+        if (!mobileMenuOverlay) return;
+        mobileMenuOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      };
+      const closeMobileMenu = () => {
+        if (!mobileMenuOverlay) return;
+        mobileMenuOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+      };
+
+      mobileMenuBtn?.addEventListener('click', openMobileMenu);
+      mobileMenuClose?.addEventListener('click', closeMobileMenu);
+      mobileMenuOverlay?.addEventListener('click', e => {
+        if (e.target === mobileMenuOverlay) closeMobileMenu();
+      });
+      mobileMenuOverlay?.querySelectorAll('.mm-link').forEach(link => {
+        link.addEventListener('click', () => {
+          if (link.target !== '_blank') closeMobileMenu();
+        });
+      });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeMobileMenu();
+      });
+    })();
+  </script>
+
+</body>
+</html>

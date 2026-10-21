@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>نبذة عن مشاريعنا | Emaar Horizons</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;800&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --white: #ffffff;
+      --bg-page: #f6f9fc;
+      --bg-elevated: #0c0d0f;
+      --bg-soft: #ffffff;
+      --text-dark: #16171a;
+      --text-mid: #6b6b72;
+      --sky: #70a06a;
+      --sky-dark: #1f3659;
+      --sky-light: rgba(112,160,106,0.16);
+      --sky-rgb: 112,160,106;
+      --violet: #8a5cff;
+      --up: #2fd67e;
+      --glass-bg: rgba(255,255,255,0.55);
+      --glass-border: rgba(255,255,255,0.65);
+      --blur-lg: 30px;
+      --blur-md: 20px;
+      --radius-lg: 26px;
+      --radius-md: 18px;
+      --radius-pill: 999px;
+      --shadow-glass: 0 20px 60px rgba(15,23,42,0.14), inset 0 1px 0 rgba(255,255,255,0.6);
+      --shadow-glass-sm: 0 10px 30px rgba(15,23,42,0.10), inset 0 1px 0 rgba(255,255,255,0.5);
+      --font-ar: 'Tajawal', sans-serif;
+      --font-en: 'Montserrat', sans-serif;
+      --ease-out: cubic-bezier(0.16,1,0.3,1);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-ar);
+      background: radial-gradient(ellipse 900px 500px at 15% -5%, rgba(112,160,106,0.10) 0%, rgba(112,160,106,0) 60%),
+                  radial-gradient(ellipse 700px 500px at 100% 30%, rgba(112,160,106,0.08) 0%, rgba(112,160,106,0) 60%),
+                  var(--bg-page);
+      color: var(--text-dark);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── PRELOADER ───────────────────────────────────── */
+    #preloader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #ffffff;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 36px;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+    #preloader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+    .preloader-ring-wrap { position: relative; width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; }
+    .preloader-ring { position: absolute; inset: 0; width: 140px; height: 140px; transform: rotate(-90deg); }
+    .preloader-ring-track { fill: none; stroke: rgba(var(--sky-rgb),0.12); stroke-width: 3; }
+    .preloader-ring-fill {
+      fill: none; stroke: url(#preloaderRingGrad); stroke-width: 3; stroke-linecap: round;
+      stroke-dasharray: 389.6; stroke-dashoffset: 389.6;
+      transition: stroke-dashoffset 0.25s ease-out;
+    }
+    .preloader-logo img { height: 52px; object-fit: contain; display: block; }
+    .preloader-tagline { font-family: var(--font-en); font-size: 0.72rem; letter-spacing: 5px; color: var(--sky-dark); text-transform: uppercase; }
+    .preloader-pct { font-family: var(--font-en); font-size: 1.6rem; font-weight: 800; color: var(--sky-dark); display: flex; gap: 2px; }
+
+    /* ─── NAVBAR ──────────────────────────────────────── */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      height: 72px; padding: 0 6%;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(255,255,255,0.72);
+      -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(180%);
+      backdrop-filter: blur(var(--blur-lg)) saturate(180%);
+      border-bottom: 1px solid rgba(255,255,255,0.5);
+      box-shadow: var(--shadow-glass-sm);
+      transition: box-shadow 0.35s ease, background 0.35s ease;
+    }
+    #navbar.scrolled { box-shadow: 0 8px 30px rgba(15,23,42,0.12); background: rgba(255,255,255,0.88); }
+    .nav-logo img { height: 42px; object-fit: contain; }
+    .nav-links { display: flex; gap: 6px; list-style: none; }
+    .nav-links a {
+      text-decoration: none; font-weight: 600; font-size: 0.92rem;
+      color: var(--text-mid); padding: 9px 16px; border-radius: var(--radius-pill);
+      transition: color 0.25s ease, background 0.25s ease;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--sky-dark); background: var(--sky-light); }
+    @media (max-width: 900px) { #navbar { display: none !important; } }
+
+    /* ─── HERO ───────────────────────────────────────── */
+    #hero {
+      position: relative; width: 100%; height: 100vh; min-height: 640px;
+      display: flex; align-items: center; justify-content: flex-start;
+      background: #000; overflow: hidden;
+    }
+    .hero-video {
+      position: absolute; top: 50%; left: 50%;
+      min-width: 100%; min-height: 100%; width: auto; height: auto;
+      transform: translate(-50%, -50%); object-fit: cover; z-index: 0;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to left, rgba(0,4,10,0.85) 0%, rgba(0,8,16,0.6) 45%, rgba(0,4,10,0.2) 80%),
+                  linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 40%);
+      z-index: 1;
+    }
+    .hero-grid { position: relative; z-index: 2; width: 100%; padding: 0 6%; display: flex; }
+    .hero-content { max-width: 620px; color: #fff; text-align: right; padding: 0 6px; }
+    .hero-eyebrow {
+      font-family: var(--font-en); font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 5px; color: var(--sky); text-transform: uppercase; margin-bottom: 20px;
+    }
+    .hero-heading {
+      font-family: var(--font-ar); font-weight: 900;
+      font-size: clamp(2.1rem, 4.4vw, 3.4rem); line-height: 1.28; margin-bottom: 22px;
+    }
+    .hero-heading em {
+      font-style: normal;
+      background: linear-gradient(100deg, var(--sky-dark), #8fd6ff);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .hero-sub { font-size: 1.05rem; font-weight: 300; color: rgba(255,255,255,0.9); margin-bottom: 36px; line-height: 1.9; }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: flex-end; }
+    .btn-glass {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 34px; border-radius: var(--radius-pill);
+      text-decoration: none; font-weight: 700; font-size: 0.95rem; transition: all 0.35s ease;
+    }
+    .btn-glass-primary {
+      background: rgba(112,160,106,0.3); -webkit-backdrop-filter: blur(var(--blur-md)); backdrop-filter: blur(var(--blur-md));
+      border: 1px solid rgba(255,255,255,0.55); color: #fff;
+    }
+    .btn-glass-primary:hover { background: rgba(112,160,106,0.6); border-color: var(--sky); transform: translateY(-2px); }
+    .btn-glass-ghost { background: transparent; border: 1px solid rgba(255,255,255,0.35); color: rgba(255,255,255,0.92); }
+    .btn-glass-ghost:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6); transform: translateY(-2px); }
+
+    /* ─── MAJOR PROJECTS SECTION ──────────────────────── */
+    #major-projects { padding: 110px 6%; background: var(--bg-soft); }
+    .projects-header { text-align: center; margin-bottom: 70px; }
+    .section-label {
+      font-family: var(--font-en); font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 4px; color: var(--sky-dark); text-transform: uppercase; margin-bottom: 14px;
+    }
+    .section-title { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; color: var(--text-dark); margin-bottom: 12px; }
+    .section-title em { font-style: normal; color: var(--sky); }
+
+    .project-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center;
+      max-width: 1160px; margin: 0 auto 90px;
+    }
+    .project-row.reverse { direction: ltr; }
+    .project-row.reverse > * { direction: rtl; }
+    @media (max-width: 900px) {
+      .project-row, .project-row.reverse { grid-template-columns: 1fr; direction: rtl; gap: 30px; margin-bottom: 60px; }
+    }
+
+    .project-img-box {
+      position: relative; border-radius: var(--radius-lg); overflow: hidden;
+      box-shadow: var(--shadow-glass); border: 1px solid var(--glass-border);
+      aspect-ratio: 16 / 10; background: #000;
+    }
+    .project-img-box img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 0.6s var(--ease-out);
+    }
+    .project-img-box:hover img { transform: scale(1.05); }
+
+    .project-info h3 { font-size: 1.8rem; font-weight: 800; color: var(--text-dark); margin-bottom: 14px; }
+    .project-info h3 em { font-style: normal; color: var(--sky); }
+    .project-sub { font-family: var(--font-en); font-size: 0.85rem; font-weight: 600; color: var(--sky-dark); margin-bottom: 16px; letter-spacing: 1px; }
+    .project-desc { font-size: 1.02rem; color: var(--text-mid); line-height: 1.85; margin-bottom: 26px; }
+    
+    .project-meta-pills { display: flex; gap: 12px; margin-bottom: 28px; flex-wrap: wrap; }
+    .meta-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; background: var(--sky-light); border-radius: var(--radius-pill);
+      font-size: 0.85rem; font-weight: 700; color: var(--sky-dark);
+    }
+    .meta-pill svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    .btn-details {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; background: var(--text-dark); color: #fff;
+      border-radius: var(--radius-pill); font-weight: 700; font-size: 0.9rem;
+      text-decoration: none; transition: background 0.3s, transform 0.3s; cursor: pointer; border: none;
+    }
+    .btn-details:hover { background: var(--sky); transform: translateY(-2px); box-shadow: 0 8px 22px rgba(112,160,106,0.3); }
+
+    /* ─── DETAILED PROJECT MODAL (PAGE-IN-PAGE VIEW) ───── */
+    #project-modal {
+      position: fixed; inset: 0; z-index: 7000;
+      background: rgba(10,14,20,0.85);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      backdrop-filter: blur(24px) saturate(160%);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transition: opacity 0.4s ease, visibility 0.4s;
+    }
+    #project-modal.open { opacity: 1; visibility: visible; pointer-events: all; }
+    .modal-card {
+      width: min(92vw, 980px); max-height: 90vh;
+      background: #ffffff; border-radius: var(--radius-lg);
+      box-shadow: 0 30px 90px rgba(0,0,0,0.4);
+      display: flex; flex-direction: column; overflow: hidden;
+      transform: scale(0.92) translateY(20px);
+      transition: transform 0.45s var(--ease-out);
+    }
+    #project-modal.open .modal-card { transform: scale(1) translateY(0); }
+    .modal-header {
+      padding: 22px 30px; background: #f8fafc; border-bottom: 1px solid #e2e8f0;
+      display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+    }
+    .modal-back-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 18px; background: #fff; border: 1px solid #cbd5e1;
+      border-radius: var(--radius-pill); font-family: var(--font-ar); font-weight: 700;
+      font-size: 0.88rem; color: var(--text-dark); cursor: pointer; transition: all 0.25s;
+    }
+    .modal-back-btn:hover { background: var(--sky); color: #fff; border-color: var(--sky); }
+    .modal-title { font-size: 1.25rem; font-weight: 800; color: var(--text-dark); }
+
+    .modal-body { padding: 35px 30px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 40px; }
+    
+    .modal-section-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center;
+    }
+    @media(max-width: 768px) { .modal-section-grid { grid-template-columns: 1fr; } }
+    .modal-img-slider {
+      border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 16/10;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1); background: #000;
+    }
+    .modal-img-slider img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .modal-stats-box {
+      background: #f8fafc; border: 1px solid #e2e8f0; border-radius: var(--radius-md);
+      padding: 24px; display: flex; flex-direction: column; gap: 16px;
+    }
+    .stat-row-item { display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; }
+    .stat-row-item span:first-child { color: var(--text-mid); font-weight: 500; }
+    .stat-row-item span:last-child { color: var(--text-dark); font-weight: 800; font-family: var(--font-en); }
+
+    .modal-chart-card {
+      background: #0f172a; border-radius: var(--radius-md); padding: 24px; color: #fff;
+    }
+    .modal-chart-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .modal-chart-title svg { width: 18px; height: 18px; stroke: var(--sky); fill: none; stroke-width: 2; }
+    .chart-graphic-wrap { position: relative; width: 100%; height: 130px; }
+    .chart-graphic-wrap svg { width: 100%; height: 100%; overflow: visible; }
+
+    /* ─── FOOTER ──────────────────────────────────────── */
+    footer {
+      background: #ffffff; padding: 30px 10%;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      position: relative; z-index: 2;
+    }
+    footer p { font-size: 0.85rem; color: var(--text-mid); }
+    footer img { height: 32px; opacity: 0.85; }
+    .wa-glass-btn {
+      display: inline-flex; align-items: center; gap: 8px; margin-top: 10px;
+      padding: 8px 20px; border-radius: var(--radius-pill);
+      text-decoration: none; color: #25d366; font-size: 0.82rem; font-weight: 600;
+      background: rgba(37,211,102,0.08);
+      border: 1px solid rgba(37,211,102,0.4);
+      font-family: 'Montserrat', sans-serif;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+    .wa-glass-btn:hover { background: #25d366; color: #fff; }
+
+    /* ─── MOBILE TOP BAR & MENU ──────────────────────── */
+    .mobile-topbar { display: none; }
+    @media (max-width: 768px) {
+      .mobile-topbar {
+        display: flex; align-items: center; justify-content: space-between;
+        position: fixed; top: 0; left: 0; right: 0; z-index: 1400;
+        height: 62px; padding: 0 16px;
+        background: rgba(255,255,255,0.72);
+        -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(180%);
+        backdrop-filter: blur(var(--blur-lg)) saturate(180%);
+        border-bottom: 1px solid rgba(255,255,255,0.5);
+      }
+      .mobile-menu-btn {
+        width: 44px; height: 44px; border-radius: 14px; border: none; cursor: pointer;
+        display: flex; align-items: center; justify-content: center; background: var(--sky);
+      }
+      .mobile-menu-btn svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 2.6; stroke-linecap: round; }
+      .mobile-topbar-logo img { height: 32px; max-width: 170px; object-fit: contain; }
+    }
+    .mobile-menu-overlay {
+      position: fixed; inset: 0; z-index: 99999;
+      display: flex; align-items: flex-start; justify-content: center;
+      padding: calc(74px + env(safe-area-inset-top)) 12px calc(14px + env(safe-area-inset-bottom));
+      background: rgba(5,8,14,0); opacity: 0; visibility: hidden; pointer-events: none;
+      transition: opacity 0.3s ease, background 0.3s ease, visibility 0.3s;
+    }
+    .mobile-menu-overlay.open {
+      opacity: 1; visibility: visible; pointer-events: all;
+      background: rgba(5,8,14,0.55); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    }
+    .mm-sheet {
+      width: min(100%, 360px); max-height: min(560px, calc(100dvh - 96px));
+      display: flex; flex-direction: column; background: #0a0a0c; border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 24px; overflow: hidden; transform: scale(0.94) translateY(-12px);
+      transition: transform 0.35s var(--ease-out), opacity 0.3s ease; opacity: 0;
+    }
+    .mobile-menu-overlay.open .mm-sheet { transform: scale(1) translateY(0); opacity: 1; }
+    .mm-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px; background: linear-gradient(135deg, var(--sky-dark), var(--violet)); }
+    .mm-close { width: 38px; height: 38px; border-radius: 12px; border: none; background: rgba(255,255,255,0.25); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .mm-close svg { width: 17px; height: 17px; stroke: #fff; fill: none; stroke-width: 2.8; stroke-linecap: round; }
+    .mm-body { display: flex; flex-direction: column; padding: 20px 18px 26px; background: #0a0a0c; overflow-y: auto; flex: 1; }
+    .mm-links { display: flex; flex-direction: column; gap: 10px; list-style: none; }
+    .mm-link {
+      display: flex; align-items: center; justify-content: flex-end; gap: 14px;
+      padding: 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 14px; text-decoration: none; color: #fff; transition: background 0.2s;
+    }
+    .mm-link:hover { background: rgba(255,255,255,0.09); }
+    .mm-link-label { font-size: 1rem; font-weight: 600; color: #fff; }
+    .mm-link-icon { width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; }
+    .mm-link-icon svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .mm-link.active { background: rgba(112,160,106,0.16); border-color: rgba(112,160,106,0.4); }
+    .mm-link.active .mm-link-label { color: var(--sky) !important; }
+    .mm-link.active .mm-link-icon { background: rgba(112,160,106,0.28) !important; }
+    .mm-link.active .mm-link-icon svg { stroke: var(--sky) !important; }
+  </style>
+
+<style id="nebras-development-footer">
+  .dev-footer {
+    position: relative !important;
+    overflow: hidden;
+    isolation: isolate;
+    min-height: 350px;
+    margin-top: 0;
+    padding: 70px 6% 24px;
+    color: #fff !important;
+    background:
+      radial-gradient(circle at 12% 20%, rgba(255,255,255,.17), transparent 27%),
+      radial-gradient(circle at 84% 78%, rgba(0,72,90,.18), transparent 32%),
+      linear-gradient(135deg, #04b9d5 0%, #08a9c8 48%, #078faa 100%) !important;
+    border-top: 1px solid rgba(255,255,255,.25);
+    box-shadow: 0 -22px 60px rgba(0, 163, 190, .12);
+    display: block !important;
+  }
+  .dev-footer * { box-sizing: border-box; }
+  .dev-footer__inner {
+    position: relative;
+    z-index: 3;
+    max-width: 1220px;
+    margin: 0 auto;
+    min-height: 230px;
+    display: grid;
+    grid-template-columns: minmax(220px, .72fr) minmax(320px, 1.28fr);
+    align-items: center;
+    gap: 60px;
+  }
+  .dev-footer__brand {
+    order: 2;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .dev-footer__logo {
+    display: block;
+    width: min(310px, 72vw);
+    max-height: 150px;
+    height: auto;
+    object-fit: contain;
+    object-position: right center;
+    filter: drop-shadow(0 16px 28px rgba(0,0,0,.14));
+  }
+  .dev-footer__content {
+    order: 1;
+    text-align: right;
+    max-width: 650px;
+  }
+  .dev-footer__eyebrow {
+    display: inline-block;
+    margin-bottom: 12px;
+    font-family: Montserrat, Arial, sans-serif;
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,.78);
+  }
+  .dev-footer__content h2 {
+    margin: 0 0 13px !important;
+    color: #fff !important;
+    font-size: clamp(1.45rem, 3vw, 2.35rem) !important;
+    line-height: 1.25;
+    font-weight: 900;
+  }
+  .dev-footer__content p {
+    max-width: 590px;
+    margin: 0 0 20px !important;
+    color: rgba(255,255,255,.88) !important;
+    font-size: .96rem;
+    line-height: 1.9;
+  }
+  .dev-footer__meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-bottom: 22px;
+    color: rgba(255,255,255,.76);
+    font-size: .86rem;
+  }
+  .dev-footer__meta strong {
+    color: #fff;
+    font-family: Montserrat, Arial, sans-serif;
+    font-size: 1.02rem;
+    letter-spacing: 1.5px;
+  }
+  .dev-footer__contact {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    min-height: 46px;
+    padding: 0 20px;
+    border: 1px solid rgba(255,255,255,.95);
+    border-radius: 999px;
+    color: #fff !important;
+    background: rgba(255,255,255,.04);
+    text-decoration: none !important;
+    font-weight: 700;
+    transition: transform .3s ease, background .3s ease, box-shadow .3s ease;
+  }
+  .dev-footer__contact:hover {
+    transform: translateY(-3px);
+    background: rgba(255,255,255,.14);
+    box-shadow: 0 12px 30px rgba(0,0,0,.12);
+  }
+  .dev-footer__arrow {
+    font-family: Arial, sans-serif;
+    font-size: 1.15rem;
+    transition: transform .3s ease;
+  }
+  .dev-footer__contact:hover .dev-footer__arrow { transform: translateX(-4px); }
+  .dev-footer__bottom {
+    position: relative;
+    z-index: 3;
+    max-width: 1220px;
+    margin: 35px auto 0;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,.2);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    color: rgba(255,255,255,.66);
+    font-family: Montserrat, Arial, sans-serif;
+    font-size: .62rem;
+    letter-spacing: 1.6px;
+    direction: ltr;
+  }
+  .dev-footer__dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.8);
+  }
+  .dev-footer__fx { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+  .dev-grid {
+    position: absolute;
+    inset: 0;
+    opacity: .13;
+    background-image: linear-gradient(rgba(255,255,255,.32) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.32) 1px, transparent 1px);
+    background-size: 54px 54px;
+    mask-image: linear-gradient(to bottom, transparent, #000 25%, #000 72%, transparent);
+  }
+  .dev-orb {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.18);
+    background: rgba(255,255,255,.07);
+    filter: blur(.2px);
+    animation: nebrasOrb 9s ease-in-out infinite;
+  }
+  .dev-orb--1 { width: 180px; height: 180px; top: -80px; left: 9%; }
+  .dev-orb--2 { width: 100px; height: 100px; bottom: 30px; right: 19%; animation-delay: -3s; animation-duration: 11s; }
+  .dev-orb--3 { width: 54px; height: 54px; top: 35%; right: 7%; animation-delay: -6s; animation-duration: 7s; }
+  .dev-line {
+    position: absolute;
+    height: 1px;
+    width: 42%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent);
+    transform: rotate(-10deg);
+    animation: nebrasLine 8s linear infinite;
+  }
+  .dev-line--1 { top: 22%; left: -15%; }
+  .dev-line--2 { bottom: 17%; right: -15%; animation-delay: -4s; transform: rotate(10deg); }
+  .dev-spark {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 14px rgba(255,255,255,.9);
+    animation: nebrasSpark 5s ease-in-out infinite;
+  }
+  .dev-spark--1 { left: 18%; top: 67%; }
+  .dev-spark--2 { left: 34%; top: 18%; animation-delay: -1.3s; }
+  .dev-spark--3 { right: 26%; top: 72%; animation-delay: -2.4s; }
+  .dev-spark--4 { right: 9%; top: 30%; animation-delay: -3.7s; }
+  @keyframes nebrasOrb {
+    0%,100% { transform: translate3d(0,0,0) scale(1); opacity: .55; }
+    50% { transform: translate3d(0,-18px,0) scale(1.08); opacity: .9; }
+  }
+  @keyframes nebrasLine {
+    0% { transform: translateX(-30%) rotate(-10deg); opacity: 0; }
+    15%,75% { opacity: .7; }
+    100% { transform: translateX(150%) rotate(-10deg); opacity: 0; }
+  }
+  @keyframes nebrasSpark {
+    0%,100% { transform: translateY(0) scale(.75); opacity: .35; }
+    50% { transform: translateY(-18px) scale(1.25); opacity: 1; }
+  }
+  @media (max-width: 760px) {
+    .dev-footer { padding: 54px 6% 22px; }
+    .dev-footer__inner { grid-template-columns: 1fr; gap: 28px; text-align: center; }
+    .dev-footer__brand { order: 1; justify-content: center; }
+    .dev-footer__content { order: 2; text-align: center; max-width: none; }
+    .dev-footer__logo { width: min(250px, 65vw); object-position: center; }
+    .dev-footer__content p { margin-left: auto !important; margin-right: auto !important; }
+    .dev-footer__meta { justify-content: center; }
+    .dev-footer__bottom { justify-content: center; flex-wrap: wrap; text-align: center; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dev-footer .dev-orb, .dev-footer .dev-line, .dev-footer .dev-spark { animation: none; }
+  }
+</style>
+
+
+<style id="compact-development-footer">
+  /* Compact development footer — approximately half the previous height */
+  .dev-footer { min-height: 175px !important; padding: 34px 6% 12px !important; }
+  .dev-footer__inner { min-height: 112px !important; gap: 30px !important; }
+  .dev-footer__logo { width: min(160px, 42vw) !important; max-height: 78px !important; }
+  .dev-footer__eyebrow { margin-bottom: 6px !important; font-size: .56rem !important; letter-spacing: 2.2px !important; }
+  .dev-footer__content h2 { margin-bottom: 7px !important; font-size: clamp(1.05rem, 2.2vw, 1.55rem) !important; }
+  .dev-footer__content p { margin-bottom: 8px !important; font-size: .72rem !important; line-height: 1.65 !important; max-width: 500px !important; }
+  .dev-footer__meta { margin-bottom: 8px !important; gap: 7px !important; font-size: .68rem !important; }
+  .dev-footer__meta strong { font-size: .8rem !important; }
+  .dev-footer__bottom { margin-top: 12px !important; padding-top: 9px !important; gap: 8px !important; font-size: .52rem !important; letter-spacing: 1.1px !important; }
+  .dev-footer__dot { width: 3px !important; height: 3px !important; }
+  @media (max-width: 760px) {
+    .dev-footer { min-height: 230px !important; padding: 28px 6% 12px !important; }
+    .dev-footer__inner { min-height: 155px !important; gap: 14px !important; }
+    .dev-footer__logo { width: min(135px, 42vw) !important; max-height: 66px !important; }
+    .dev-footer__content p { font-size: .69rem !important; }
+    .dev-footer__bottom { margin-top: 8px !important; }
+  }
+</style>
+
+</head>
+<body>
+
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <div class="preloader-ring-wrap">
+      <svg class="preloader-ring" viewBox="0 0 140 140" aria-hidden="true">
+        <defs>
+          <linearGradient id="preloaderRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="var(--sky-dark)" />
+            <stop offset="100%" stop-color="var(--sky)" />
+          </linearGradient>
+        </defs>
+        <circle class="preloader-ring-track" cx="70" cy="70" r="62"></circle>
+        <circle class="preloader-ring-fill" id="preloader-ring-fill" cx="70" cy="70" r="62"></circle>
+      </svg>
+      <div class="preloader-logo">
+        <img src="emmar.png" alt="Emaar Horizons" />
+      </div>
+    </div>
+    <div class="preloader-tagline">Your Future, Evolving</div>
+    <div class="preloader-pct" id="preloader-pct"><span id="preloader-pct-num">0</span><span>%</span></div>
+  </div>
+
+  <!-- MOBILE TOP BAR -->
+  <div class="mobile-topbar" id="mobileTopbar">
+    <div class="mobile-topbar-logo">
+      <img src="emmar.png" alt="Emaar Horizons" />
+    </div>
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="فتح القائمة">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <div class="mm-sheet">
+      <div class="mm-header">
+        <button class="mm-close" id="mobileMenuClose" aria-label="إغلاق القائمة">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <div class="mm-header-logo">
+          <img src="emmar.png" style="height:28px; filter: brightness(0) invert(1);" alt="Emaar Horizons" />
+        </div>
+      </div>
+      <div class="mm-body">
+        <nav class="mm-links">
+          <a href="/" class="mm-link"><span class="mm-link-label">الرئيسية</span><span class="mm-link-icon"><svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg></span></a>
+          <a href="/nabza" class="mm-link active"><span class="mm-link-label">نبذة عن مشاريعنا</span><span class="mm-link-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span></a>
+          <a href="/electro" class="mm-link"><span class="mm-link-label">إلكتروميكانيك</span><span class="mm-link-icon"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span></a>
+          <a href="/projects" class="mm-link"><span class="mm-link-label">مشاريع</span><span class="mm-link-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span></a>
+          <a href="/decorations" class="mm-link"><span class="mm-link-label">ديكورات</span><span class="mm-link-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span></a>
+                    <a href="/team" class="mm-link">
+            <span class="mm-link-label">فريق العمل</span>
+            <span class="mm-link-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/></svg></span>
+          </a>
+<a href="/contact" class="mm-link"><span class="mm-link-label">تواصل معنا</span><span class="mm-link-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.43 2 2 0 0 1 3.58 1H6.6a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.5a16 16 0 0 0 5.55 5.55l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span></a>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="nav-logo">
+      <img src="emmar.png" alt="Emaar Horizons" />
+    </div>
+    <ul class="nav-links">
+      <li><a href="/">الرئيسية</a></li>
+      <li><a href="/nabza" class="active">نبذة عن مشاريعنا</a></li>
+      <li><a href="/electro">إلكتروميكانيك</a></li>
+      <li><a href="/projects">مشاريع</a></li>
+      <li><a href="/decorations">ديكورات</a></li>
+            <li><a href="/team">فريق العمل</a></li>
+<li><a href="/contact">تواصل معنا</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <video class="hero-video" id="hero-video" autoplay muted loop playsinline preload="auto">
+      <source src="nebras-bg.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-grid">
+      <div class="hero-content">
+        <p class="hero-eyebrow">OUR STORY & PROJECTS</p>
+        <h1 class="hero-heading">نبذة عن <em>مشاريعنا الكبرى</em><br/>ورحلتنا نحو الريادة</h1>
+        <p class="hero-sub">ننفذ أضخم المشاريع الإنشائية والكهروميكانيكية بأعلى المعايير العالمية، مع الالتزام التام بالجداول الزمنية واحترافية فرق العمل ميدانياً.</p>
+        <div class="hero-actions">
+          <a href="#major-projects" class="btn-glass btn-glass-primary">استعرض المشاريع</a>
+          <a href="/contact" class="btn-glass btn-glass-ghost">تواصل معنا</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAJOR PROJECTS SECTION -->
+  <section id="major-projects">
+    <div class="projects-header">
+      <p class="section-label">FEATURED PROJECTS</p>
+      <h2 class="section-title">أبرز <em>مشاريعنا الإستراتيجية</em></h2>
+    </div>
+
+    <!-- PROJECT 1: QIDDIYA -->
+    <div class="project-row">
+      <div class="project-img-box">
+        <img src="https://i.postimg.cc/wBY5ZzDG/2b423955-79e8-4557-88f8-5ebcf298b9ef.jpg" alt="مشروع القدية" loading="lazy" decoding="async" />
+      </div>
+      <div class="project-info">
+        <span class="project-sub">QIDDIYA TRANSPORT HUB PROJECT</span>
+        <h3>مشروع <em>القدية</em></h3>
+        <p class="project-desc">أعمال مركز النقل الجنوبي الغربي (Southwest Transport Hub) وفق أحدث المعايير الهندسية والتقنية لتوفير شبكة نقل متكاملة وعالية الكفاءة.</p>
+        <div class="project-meta-pills">
+          <div class="meta-pill">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            105 عامل وفني ميداني
+          </div>
+        </div>
+        <button class="btn-details" onclick="openProjectModal('qiddiya')">
+          <span>عرض المزيد حول المشروع</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- PROJECT 2: CARE HOSPITALS -->
+    <div class="project-row reverse">
+      <div class="project-img-box">
+        <img src="https://i.postimg.cc/Wp0dYZ5V/002247a9-a55e-4786-a83f-91ad623b5978.jpg" alt="مستشفيات رعاية" loading="lazy" decoding="async" />
+      </div>
+      <div class="project-info">
+        <span class="project-sub">CARE MEDICAL HOSPITALS PROJECT</span>
+        <h3>مشروع <em>مستشفيات رعاية الطبية</em></h3>
+        <p class="project-desc">تنفيذ التجهيزات الكهروميكانيكية المتكاملة وتطوير البنية التحتية الطبية لضمان تقديم أعلى مستويات الرعاية والاعتمادية التشغيلية.</p>
+        <div class="project-meta-pills">
+          <div class="meta-pill">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            96 عامل وفني مختص
+          </div>
+        </div>
+        <button class="btn-details" onclick="openProjectModal('care')">
+          <span>عرض المزيد حول المشروع</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- DETAILED PROJECT MODAL (PAGE-IN-PAGE VIEW) -->
+  <div id="project-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-project-title">تفاصيل المشروع</h2>
+        <button class="modal-back-btn" onclick="closeProjectModal()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          رجوع
+        </button>
+      </div>
+      <div class="modal-body" id="modal-body-content">
+        <!-- Dynamic Content injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <!-- DEVELOPMENT FOOTER -->
+<footer class="dev-footer" dir="rtl">
+  <div class="dev-footer__fx" aria-hidden="true">
+    <span class="dev-orb dev-orb--1"></span>
+    <span class="dev-orb dev-orb--2"></span>
+    <span class="dev-orb dev-orb--3"></span>
+    <span class="dev-grid"></span>
+    <span class="dev-line dev-line--1"></span>
+    <span class="dev-line dev-line--2"></span>
+    <span class="dev-spark dev-spark--1"></span>
+    <span class="dev-spark dev-spark--2"></span>
+    <span class="dev-spark dev-spark--3"></span>
+    <span class="dev-spark dev-spark--4"></span>
+  </div>
+  <div class="dev-footer__inner">
+    <div class="dev-footer__brand">
+      <img src="emmar.png" alt="Emaar Horizons" class="dev-footer__logo" />
+    </div>
+
+    <div class="dev-footer__content">
+      <span class="dev-footer__eyebrow">EMAAR HORIZONS</span>
+      <h2>تفاصيل تصنع الفرق.</h2>
+      <p>
+        نطوّر حلولنا بعناية لنقدّم تجربة رقمية واضحة، سريعة، ومناسبة لاحتياجات العمل.
+      </p>
+      <div class="dev-footer__meta">
+        <span>مسؤول التطوير</span>
+        <strong>EYAD</strong>
+      </div>
+    </div>
+  </div>
+  <div class="dev-footer__bottom">
+    <span>EMAAR HORIZONS</span>
+    <span class="dev-footer__dot"></span>
+    <span>EST. 2019</span><span class="dev-footer__dot"></span><span>PROJECT@NEBRAS.COM.SA</span>
+  </div>
+</footer>
+
+  <script>
+    // Video autoplay robustness fix
+    document.addEventListener("DOMContentLoaded", () => {
+      const v = document.getElementById('hero-video');
+      if (v) {
+        v.play().catch(e => {
+          v.muted = true;
+          v.play().catch(err => console.log("Video autoplay blocked:", err));
+        });
+      }
+    });
+
+    // Preloader animation
+    const pctNumEl = document.getElementById('preloader-pct-num');
+    const ringFill = document.getElementById('preloader-ring-fill');
+    const RING_CIRC = 389.6;
+    if (pctNumEl && ringFill) {
+      let pct = 0;
+      const pctTimer = setInterval(() => {
+        pct = Math.min(100, pct + Math.random() * 12 + 4);
+        pctNumEl.textContent = Math.round(pct);
+        ringFill.style.strokeDashoffset = RING_CIRC - (RING_CIRC * pct / 100);
+        if (pct >= 100) clearInterval(pctTimer);
+      }, 100);
+    }
+    setTimeout(() => {
+      const pre = document.getElementById('preloader');
+      if (pre) pre.classList.add('hide');
+    }, 2200);
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenuClose = document.getElementById('mobileMenuClose');
+    const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+
+    function openMobileMenu() {
+      if (mobileMenuOverlay) mobileMenuOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileMenu() {
+      if (mobileMenuOverlay) mobileMenuOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileMenu);
+    if (mobileMenuClose) mobileMenuClose.addEventListener('click', closeMobileMenu);
+    if (mobileMenuOverlay) {
+      mobileMenuOverlay.addEventListener('click', (e) => { if (e.target === mobileMenuOverlay) closeMobileMenu(); });
+    }
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      const nb = document.getElementById('navbar');
+      if (nb) nb.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Complete Project Data with all images
+    const projectData = {
+      qiddiya: {
+        title: "مشروع القدية - مركز النقل الجنوبي الغربي",
+        desc: "أعمال مركز النقل الجنوبي الغربي (Southwest Transport Hub) في مشروع القدية الضخم. تم إنجاز التجهيزات الهندسية والبنية التحتية المتقدمة وفق خطط دقيقة ومتابعة مستمرة لضمان الجودة العالية.",
+        workers: "105 عامل وفني مختص",
+        images: [
+          "https://i.postimg.cc/wBY5ZzDG/2b423955-79e8-4557-88f8-5ebcf298b9ef.jpg",
+          "https://i.postimg.cc/3wjjHqZc/3edb437b-f16a-40d1-b13c-a105bb84c8bf.jpg",
+          "https://i.postimg.cc/GpPP1fjf/461f82ff-1992-4ac2-886c-72746f629260.jpg",
+          "https://i.postimg.cc/W4mmPy7C/fd7689e2-2fef-492b-8c71-a441bedd88ef.jpg"
+        ],
+        chartPath: "M2,90 C50,95 100,70 150,55 C200,40 250,60 300,30 C350,15 400,20 456,10"
+      },
+      care: {
+        title: "مشروع مستشفيات رعاية الطبية",
+        desc: "تنفيذ الأنظمة الكهروميكانيكية المتكاملة وتجهيز الأقسام الطبية بمستشفيات رعاية، مع تطبيق أعلى معايير الأمان والسلامة الهندسية والتشغيلية المعتمدة.",
+        workers: "96 عامل وفني مختص",
+        images: [
+          "https://i.postimg.cc/Wp0dYZ5V/002247a9-a55e-4786-a83f-91ad623b5978.jpg",
+          "https://i.postimg.cc/Kct1pT0m/52592e14-862d-4545-beba-a6fba44bcc82.jpg",
+          "https://i.postimg.cc/VsXJZtK6/9d43837e-3364-4977-9c3e-2736bd7a0418.jpg",
+          "https://i.postimg.cc/Wp0dYZ5b/b9e286f9-f2a2-4e6c-a7b8-2ee3ae4a2f8d.jpg",
+          "https://i.postimg.cc/9XyDg9L0/b9f2e6bf-09a6-42fd-91d1-9cb306f51d87.jpg",
+          "https://i.postimg.cc/Y2QvDFdM/bac11ebb-b702-4dfa-a80d-58f465581644.jpg",
+          "https://i.postimg.cc/v8542n3J/e3ce6013-4d04-4fa1-80b1-fada4e68c9e0.jpg",
+          "https://i.postimg.cc/fWYVqd8Q/f02db125-0fde-4dc3-b3ea-2ce52869c4af.jpg"
+        ],
+        chartPath: "M2,100 C60,85 110,65 170,75 C230,85 280,40 330,25 C390,10 430,15 456,8"
+      }
+    };
+
+    function openProjectModal(key) {
+      const proj = projectData[key];
+      if (!proj) return;
+
+      document.getElementById('modal-project-title').textContent = proj.title;
+
+      let imagesHtml = proj.images.map((img, idx) => `
+        <div class="modal-section-grid" style="${idx % 2 === 1 ? 'direction: ltr;' : ''}">
+          <div class="modal-img-slider" style="${idx % 2 === 1 ? 'direction: rtl;' : ''}">
+            <img src="${img}" alt="${proj.title}" loading="lazy" decoding="async" />
+          </div>
+          <div style="${idx % 2 === 1 ? 'direction: rtl;' : ''}">
+            <h4 style="font-size: 1.2rem; font-weight: 800; color: var(--text-dark); margin-bottom: 10px;">لقطة ميدانية رقم ${idx + 1}</h4>
+            <p style="color: var(--text-mid); font-size: 0.98rem; line-height: 1.8;">${proj.desc}</p>
+          </div>
+        </div>
+      `).join('');
+
+      const modalContent = document.getElementById('modal-body-content');
+      modalContent.innerHTML = `
+        <div class="modal-stats-box">
+          <div class="stat-row-item">
+            <span>طبيعة المشروع:</span>
+            <span>${proj.title}</span>
+          </div>
+          <div class="stat-row-item">
+            <span>إجمالي طاقم العمل الميداني:</span>
+            <span>${proj.workers}</span>
+          </div>
+          <div class="stat-row-item">
+            <span>حالة التنفيذ:</span>
+            <span style="color: var(--up);">منجز ومسلّم بكفاءة عالية</span>
+          </div>
+        </div>
+
+        <div class="modal-chart-card">
+          <div class="modal-chart-title">
+            <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.1-4-4L3 15.5"/></svg>
+            رسم بياني يوضح اتجاه الأداء وتصاعد الإنتاجية الميدانية
+          </div>
+          <div class="chart-graphic-wrap">
+            <svg viewBox="0 0 456 120" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="modalGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="rgba(112,160,106,0.4)" />
+                  <stop offset="100%" stop-color="rgba(112,160,106,0)" />
+                </linearGradient>
+              </defs>
+              <path d="${proj.chartPath} L456,120 L2,120 Z" fill="url(#modalGrad)" />
+              <path d="${proj.chartPath}" fill="none" stroke="var(--sky)" stroke-width="3" stroke-linecap="round" />
+            </svg>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 40px;">
+          ${imagesHtml}
+        </div>
+      `;
+
+      document.getElementById('project-modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeProjectModal() {
+      document.getElementById('project-modal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeProjectModal();
+    });
+  </script>
+
+</body>
+</html>
